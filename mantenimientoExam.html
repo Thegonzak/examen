@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Examen Simulado – Mantenimiento Naval</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f9f9f9
+        }
+
+        .question {
+            margin-bottom: 15px
+        }
+
+        .options label {
+            display: block;
+            margin: 5px 0
+        }
+
+        .correct {
+            color: green;
+            font-weight: bold
+        }
+
+        .incorrect {
+            color: red;
+            font-weight: bold
+        }
+
+        #resultado {
+            margin-top: 20px;
+            font-size: 1.2em
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Examen Simulado – Mantenimiento Naval</h1>
+    <form id="examenForm"></form>
+    <button onclick="corregir()">Corregir</button>
+    <div id="resultado"></div>
+
+    <script>
+        const preguntas = [
+            {
+                q: "¿Cuáles son los principales tipos de mantenimiento utilizados para conservar el buen funcionamiento de equipos y máquinas?",
+                opts: [
+                    "A) Operativo, administrativo y técnico",
+                    "B) Preventivo, correctivo y predictivo",
+                    "C) Manual, automático y digital",
+                    "D) Interno, externo y mixto"
+                ],
+                ans: "B"
+            },
+            {
+                q: "DIMARE es la:",
+                opts: [
+                    "A) Dirección administrativa de la Armada.",
+                    "B) Departamento interno de control naval.",
+                    "C) Dirección de mantenimiento y recuperación de unidades navales y artillería.",
+                    "D) División operativa de seguridad marítima."
+                ],
+                ans: "C"
+            },
+            {
+                q: "El mantenimiento es la acción de ejecutar mantenimiento a los usuarios para evitar futuros daños",
+                opts: ["A) verdadero", "B) falso"],
+                ans: "B"
+            },
+            {
+                q: "Para manejar el SISLOG se requiere personal calificado",
+                opts: ["a) verdadero", "b) falso"],
+                ans: "A"
+            },
+            {
+                q: "Solo DIMARE puede reparar todo equipo técnico de los buques, sin necesidad de ayuda de alguna unidad externa",
+                opts: ["a) verdadero", "b) falso"],
+                ans: "B"
+            },
+            {
+                q: "Un plan de mantenimiento ayuda a reducir costos a largo plazo.",
+                opts: ["a) verdadero", "b) falso"],
+                ans: "A"
+            },
+            {
+                q: "Seleccione la respuesta correcta IFAL:",
+                opts: [
+                    "A) informe de fallas de los equipos",
+                    "B) información de fallas de los equipos",
+                    "C) informe de los equipos con falla"
+                ],
+                ans: "A"
+            },
+            {
+                q: "¿Cuál es el objetivo principal de un plan de mantenimiento?",
+                opts: [
+                    "A) Reparar equipos solo cuando se dañan.",
+                    "B) Aumentar el trabajo del personal.",
+                    "C) Mantener los equipos en buen estado, prevenir fallas y prolongar su vida útil."
+                ],
+                ans: "C"
+            },
+            {
+                q: "Complete: ¿Cuál es el propósito de la Directiva “D.G.P-COGMAR-LOG-001-2019R;13 DE MAR-2019”? Emitir disposiciones para la planificación, supervisión y ejecución del mantenimiento en sus distintos niveles considerando el sostenimiento del material durante el ciclo de vida.",
+                opts: [
+                    "A) Planificación, mantenimiento, vida.",
+                    "B) Vida, mantenimiento, planificación.",
+                    "C) Mantenimiento, planificación, vida."
+                ],
+                ans: "A"
+            },
+            {
+                q: "El mantenimiento preventivo se realiza antes de que ocurra una falla con el objetivo de reducir la probabilidad de averías.",
+                opts: ["a) verdadero", "b) falso"],
+                ans: "A"
+            },
+            {
+                q: "El mantenimiento correctivo se aplica únicamente cuando el equipo aún se encuentra en buen estado de funcionamiento.",
+                opts: ["a) verdadero", "b) falso"],
+                ans: "B"
+            },
+            {
+                q: "¿Qué tipo de mantenimiento se realiza cuando el equipo ya ha fallado?",
+                opts: ["a) Preventivo", "b) Predictivo", "c) Correctivo"],
+                ans: "C"
+            },
+            {
+                q: "¿Cuál de los siguientes mantenimientos utiliza sensores y análisis de datos?",
+                opts: ["a) Correctivo", "b) Preventivo", "c) Predictivo"],
+                ans: "C"
+            },
+            {
+                q: "¿Cuál es una ventaja del mantenimiento predictivo?",
+                opts: [
+                    "a) Mayor tiempo de inactividad",
+                    "b) Reducción de costos por fallas imprevistas",
+                    "c) Reparaciones de emergencia"
+                ],
+                ans: "B"
+            },
+            {
+                q: "SISLOG es un sistema donde se encuentran todos los activos fijos de la Armada para realizar mantenimiento.",
+                opts: ["A) Verdadero", "B) Falso"],
+                ans: "A"
+            },
+            {
+                q: "El plan de mantenimientos contiene principalmente:",
+                opts: [
+                    "A) Objetivos, tareas programadas, descripción, presupuesto, equipo de protección, observaciones.",
+                    "B) Introducción, desarrollo, conclusiones",
+                    "C) Objetivos secundarios, introducción, sumilla.",
+                    "D) Firma electrónica, seguridad informática, equipos y máquinas."
+                ],
+                ans: "A"
+            },
+            {
+                q: "¿Qué suceso histórico ha permitido desarrollar el concepto de 'mantenimiento' a lo largo de la historia?",
+                opts: [
+                    "A) Revolución Francesa",
+                    "B) Imperio Romano",
+                    "C) Revolución Industrial",
+                    "D) Ninguna de las anteriores."
+                ],
+                ans: "C"
+            },
+            {
+                q: "¿DIMARE significa: Dirección de Mantenimiento y Recuperación de repartos navales?",
+                opts: ["a) verdadero", "b) falso"],
+                ans: "B"
+            },
+            {
+                q: "Mantenimiento es la acción de _______ mantenimientos a los equipos o repartos para evitar futuros daños.",
+                opts: [
+                    "A) Eliminar",
+                    "B) Dar de baja",
+                    "C) Lograr",
+                    "D) Ejecutar"
+                ],
+                ans: "D"
+            }
+        ];
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function cargarPreguntas() {
+            shuffle(preguntas);
+            const form = document.getElementById("examenForm");
+            form.innerHTML = "";
+            preguntas.forEach((p, index) => {
+                const div = document.createElement("div");
+                div.className = "question";
+                div.innerHTML = `<strong>${index + 1}. ${p.q}</strong><br>`;
+                p.opts.forEach(opt => {
+                    const value = opt.charAt(0).toUpperCase();
+                    div.innerHTML += `
+                        <div class="options">
+                            <label>
+                            <input type="radio" name="q${index}" value="${value}">
+                            ${opt}
+                            </label>
+                        </div>`;
+                });
+                form.appendChild(div);
+            });
+        }
+
+        function corregir() {
+            let correctas = 0;
+            preguntas.forEach((p, i) => {
+                const seleccion = document.querySelector(`input[name="q${i}"]:checked`);
+                const div = document.querySelectorAll(".question")[i];
+                const respuestaUsuario = seleccion ? seleccion.value.toUpperCase() : "";
+                const respuestaCorrecta = p.ans.toUpperCase();
+                if (respuestaUsuario === respuestaCorrecta) {
+                    correctas++;
+                    div.classList.add("correct");
+                } else {
+                    div.classList.add("incorrect");
+                }
+            });
+            document.getElementById("resultado").innerText = `Obtuviste ${correctas} de ${preguntas.length} respuestas correctas.`;
+        }
+
+        window.onload = cargarPreguntas;
+    </script>
+
+</body>
+
+</html>

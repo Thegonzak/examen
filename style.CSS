@@ -1,0 +1,17 @@
+.options label {
+  display: block;
+  margin: 6px 0;
+  padding: 8px 12px;
+  background: #f0f4f8;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.options label:hover {
+  background: #dde4ea;
+}
+
+.options input[type="radio"] {
+  margin-right: 10px;
+}

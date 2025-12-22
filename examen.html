@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Examen Simulado - Seguridad de la Información</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background-color: #f9f9f9; }
+    .question { margin-bottom: 15px; }
+    .options label { display: block; margin: 5px 0; }
+    .correct { color: green; font-weight: bold; }
+    .incorrect { color: red; font-weight: bold; }
+    #resultado { margin-top: 20px; font-size: 1.2em; }
+    button { margin-top: 20px; padding: 10px 20px; font-size: 16px; }
+  </style>
+</head>
+<body>
+
+  <h1>Examen Simulado - Seguridad de la Información</h1>
+  <form id="examenForm"></form>
+  <button onclick="corregir()">Corregir</button>
+  <div id="resultado"></div>
+
+  <script>
+    const preguntas = [
+      { q: "¿Son la mínima unidad semántica, y se corresponden con elementos secundarios de información que son relevantes como apoyo a la toma de decisiones?", opts: ["A. Datos", "B. Información", "C. Conocimiento", "D. Ninguna de las anteriores"], ans: "D" },
+      { q: "La información es el conjunto de datos procesados y que tienen un significado (relevancia, propósito y contexto), y que por lo tanto son de utilidad para quién debe tomar decisiones, al disminuir su incertidumbre.", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "El conocimiento se deriva de los datos, así como los datos se deriva de la información.", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "La seguridad es:", opts: ["A. Estado en el cual los peligros y las condiciones que pueden provocar daños son eliminadas.", "B. Estado en el cual los hackers y las condiciones que pueden provocar daños son controlados.", "C. Estado en el cual los peligros y las condiciones que pueden provocar daños son controlados.", "D. Ninguna de las anteriores"], ans: "C" },
+      { q: "La seguridad de la información busca la protección de la información en todo tipo de medios, tanto digitales como físicos.", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "La seguridad de la información es el paraguas que abarca el resto de disciplinas (ciberseguridad, seguridad informática, seguridad de TI, seguridad de aplicaciones, otros).", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "¿Qué es una vulnerabilidad?", opts: ["A. Un ataque exitoso", "B. Un evento inesperado", "C. Un agujero de seguridad aprovechable", "D. Una amenaza materializada"], ans: "C" },
+      { q: "Las amenazas se materializan a través de:", opts: ["A. Riesgos", "B. Impactos", "C. Vulnerabilidades", "D. Ataques"], ans: "D" },
+      { q: "¿Qué representa el riesgo en seguridad de la información?", opts: ["A. El daño causado", "B. La probabilidad de que una amenaza se materialice", "C. El ataque ejecutado", "D. La vulnerabilidad existente"], ans: "B" },
+      { q: "El impacto sería el alcance producido o daño causado en caso de que una amenaza se materialice.", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "Etapas de evaluación de la VULNERABILIDAD.", opts: ["A. Clasificación, Análisis, Priorización, Reparación", "B. Identificación, Análisis, Priorización, Notificación", "C. Identificación, Análisis, Priorización, Reparación", "D. Ninguna de las anteriores."], ans: "C" },
+      { q: "Las AMENAZAS de tipo HUMANAS son: Maliciosas y Externas.", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "¿Cuáles son los pilares de la seguridad cibernética?", opts: ["A. Autenticación, autorización y auditoría", "B. Prevención, detección y respuesta", "C. Seguridad física, lógica y social", "D. Confidencialidad, integridad y disponibilidad"], ans: "D" },
+      { q: "Los controles de seguridad se implementan siguiendo las directrices del:", opts: ["A. SGSI", "B. EGSI", "C. ISO 2700", "D. Ninguna de las anteriores"], ans: "B" },
+      { q: "¿Cuál NO es una capa del ciberespacio?", opts: ["A. Física", "B. Lógica", "C. Social", "D. Estratégica"], ans: "D" },
+      { q: "Son las instalaciones, redes, sistemas y equipos físicos y de tecnología de la información sobre las que descansa el funcionamiento de los servicios esenciales.", opts: ["A. Infraestructura Social", "B. Infraestructura Estratégica", "C. Infraestructura Crítica", "D. Infraestructura Gubernamental"], ans: "B" },
+      { q: "El EGSI es de implementación obligatoria en la entidades, organismos e instituciones del sector público y privado.", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "La máxima autoridad designará al interior de la Institución, un Comité de Seguridad Informática (CSI).", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "¿En el EGSI, existe el TRABAJO REMOTO como CONTROL DE PERSONAS?", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "¿Qué institución presentó oficialmente la Estrategia Nacional de Ciberseguridad?", opts: ["A. Ministerio de Defensa", "B. Ministerio del Interior", "C. Ministerio de Telecomunicaciones", "D. Asamblea Nacional"], ans: "C" },
+      { q: "¿Cuántos ejes de acción (pilares) tiene la Estrategia Nacional de Ciberseguridad?", opts: ["A. Cuatro", "B. Cinco", "C. Seis", "D. Siete"], ans: "C" },
+      { q: "¿Qué busca el eje 2 de la Estrategia Nacional de Ciberseguridad?", opts: ["A. Promover la ciberdiplomacia", "B. Mejorar la resiliencia cibernética", "C. Incrementar el presupuesto militar", "D. Regular el comercio electrónico"], ans: "B" },
+      { q: "¿Qué tipo de actividades comprende la ciberdefensa?", opts: ["A. Solo defensivas", "B. Preventivas únicamente", "C. Defensivas, ofensivas y de inteligencia", "D. Administrativas"], ans: "C" },
+      { q: "¿Qué documento conceptualiza el ciberespacio como dominio de la guerra?", opts: ["A. ISO 27000", "B. Estrategia Nacional de Ciberseguridad", "C. Reglamento RT3IV", "D. Manual de Ciberdefensa"], ans: "D" },
+      { q: "El CERT nacional participa en la gestión de incidentes cibernéticos.", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "La ciberdefensa está orientada únicamente a acciones defensivas.", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "La Estrategia Nacional de Ciberseguridad solo aplica al sector público.", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "¿Qué busca el eje 4 de la Estrategia Nacional de Ciberseguridad?", opts: ["A. Fortalecer la ciberdefensa del Estado", "B. Regular redes sociales", "C. Controlar proveedores de Internet", "D. Ninguna de las anteriores"], ans: "A" },
+      { q: "¿Qué ámbito busca fortalecer el eje 6 de la Estrategia Nacional?", opts: ["A. Educación superior", "B. Seguridad física", "C. Cooperación internacional", "D. Defensa territorial"], ans: "C" },
+      { q: "La ciberdefensa está orientada únicamente a acciones defensivas.", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+    ];
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function cargarPreguntas() {
+      shuffle(preguntas);
+      const form = document.getElementById("examenForm");
+      form.innerHTML = "";
+      preguntas.forEach((p, index) => {
+        const div = document.createElement("div");
+        div.className = "question";
+        div.innerHTML = `<strong>${index + 1}. ${p.q}</strong><br>`;
+        p.opts.forEach(opt => {
+          const value = opt.charAt(0);
+          div.innerHTML += `
+            <label>
+              <input type="radio" name="q${index}" value="${value}">
+              ${opt}
+            </label>`;
+        });
+        form.appendChild(div);
+      });
+    }
+
+    function corregir() {
+      let correctas = 0;
+      preguntas.forEach((p, i) => {
+        const seleccion = document.querySelector(`input[name="q${i}"]:checked`);
+        const div = document.querySelectorAll(".question")[i];
+        if (seleccion && seleccion.value === p.ans) {
+          correctas++;
+          div.classList.add("correct");
+        } else {
+          div.classList.add("incorrect");
+        }
+      });
+      document.getElementById("resultado").innerText = `Obtuviste ${correctas} de ${preguntas.length} respuestas correctas.`;
+    }
+
+    window.onload = cargarPreguntas;
+  </script>
+
+</body>
+</html>

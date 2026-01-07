@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Examen Simulado – Antimotines 2026</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f9f9f9
+        }
+
+        h1 {
+            color: #004080
+        }
+
+        .question {
+            margin-bottom: 15px
+        }
+
+        .options label {
+            display: block;
+            margin: 6px 0;
+            padding: 8px 12px;
+            background: #f0f4f8;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background .2s
+        }
+
+        .options label:hover {
+            background: #dde4ea
+        }
+
+        .options input[type="radio"] {
+            margin-right: 10px
+        }
+
+        .correct {
+            color: green;
+            font-weight: bold
+        }
+
+        .incorrect {
+            color: red;
+            font-weight: bold
+        }
+
+        #resultado {
+            margin-top: 20px;
+            font-size: 1.2em
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Examen Simulado – Antimotines 2026</h1>
+    <form id="examenForm"></form>
+    <button onclick="corregir()">Corregir</button>
+    <div id="resultado"></div>
+
+    <script>
+        const preguntas = [
+            { q: "¿CUÁL ES EL CONCEPTO DE UNA UNIDAD CONTRA MOTINES Y DISTURBIOS?", opts: ["a) Son fuerzas desorganizadas y entrenadas para el control de disturbios, motines, tumultos y desordenes, etc.", "b) Son Fuerzas entrenadas y capacitadas física psicológica y mentalmente para el control de disturbios, manifestaciones, motines y demás situaciones que alteren el orden público y la tranquilidad de la ciudadana", "c) Son fuerzas organizadas, entrenadas, autorizadas y certificadas para el control de disturbios.", "d) Ninguna de las anteriores"], ans: "b" },
+            { q: "¿CUÁL ES EL CONCEPTO DE MANISFESTACION?", opts: ["a) Son los procesos colectivos o aglomeraciones de personas que se congregan, de Manera pacífica, ejerciendo los derechos constitucionales de protesta social, resistencia, libertad de expresión, libertad de reunión, libertad de asociación y libertad de participación.", "b) Son los procesos colectivos o aglomeraciones de personas que se congregan, de Manera violenta", "c) Son los procesos colectivos o aglomeraciones de personas que se congregan, de Manera violenta, ejerciendo los derechos constitucionales de protesta social, resistencia, libertad de expresión, libertad de reunión, libertad de asociación y libertad de participación.", "d) Ninguna de las anteriores"], ans: "a" },
+            { q: "¿CUÁL ES EL CONCEPTO DE MOTIN?", opts: ["a) Rebelión violenta contra la autoridad establecida, realizada por un grupo de personas. Puede producirse en iglesias, parques o en contextos religiosos.", "b) Rebelión no violenta a favor la autoridad establecida, realizada por un grupo de personas. Puede producirse en cárceles, cuarteles o en contextos civiles, y generalmente implica desobediencia grave y uso de la fuerza.", "c) Rebelión violenta contra la autoridad establecida, realizada por un grupo de personas. Puede producirse en cárceles, cuarteles o en contextos civiles, y generalmente implica desobediencia grave y uso de la fuerza.", "d) Ninguna de las anteriores."], ans: "c" },
+            { q: "Armas menos letales son la gama de armas, munición, medios e instrumentos ___________ o destinados a ser utilizados contra personas o grupos de personas y que, en el curso de su uso esperado o razonablemente previsto, entrañan una ___________ de causar la muerte o lesiones graves que las armas de fuego.", opts: ["a) Diseñados y mayor probabilidad.", "b) Diseñados y menor probabilidad.", "c) Empleados y menor probabilidad.", "d) Entrenar y capacitar.", "e) Ninguna de las anteriores"], ans: "b" },
+            { q: "QUE ES UNA FUERZA LETAL: ES UN NIVEL DE FUERZA INTRÍNSECAMENTE PROBABLE DE CAUSAR UNA GRAN ___________ CORPORAL O ___________.", opts: ["a) Lesiones grave / Muerte", "b) Lesión / Muerte", "c) Lesión / Lesión Temporal", "d) Ninguna de las anteriores"], ans: "a" },
+            { q: "Seleccione las actividades que realizan los manifestantes (TURBA)", opts: ["a) Agresión Verbal. (violencia emocional)", "b) Uso de mujeres, niños y ancianos.", "c) Uso de Barricadas.", "d) Lanzamiento de objetos.", "e) Ataques a personal, vehículos e infraestructura.", "f) Uso de fuego.", "g) Uso de armas.", "h) Explosivos.", "i) Todas las anteriores."], ans: "i" },
+            { q: "Principios para el uso legítimo de la fuerza. (art. 10.­ loruf) El uso legítimo de la fuerza se sustentará en la protección de los derechos y garantías de las personas, y se regirá por los siguientes principios:", opts: ["a) Legalidad.-", "b) Absoluta necesidad.-", "c) Proporcionalidad", "d) Precaución.­", "e) Humanidad.-", "f) No discriminación.­", "g) Rendición de Cuentas", "h) Todas las anteriores"], ans: "h" },
+            { q: "Los niveles de uso legítimo de la fuerza.­ (art. 13) son:", opts: ["i) Presencia.-­", "j) Verbalización.­", "k) Control físico.­", "l) Técnicas defensivas menos letales.­", "m) Fuerza potencialmente letal.-­", "n) Fuerza intencionalmente letal.-­", "o) Todas las anteriores."], ans: "o" },
+            {
+                q: "Complete cómo está conformado un pelotón Anti-Motines:",
+                tipo: "input",
+                filas: [
+                    { label: "ESCUADRA DE INTERVENCIÓN", correcto: 12 },
+                    { label: "ESCUADRA DE APOYO", correcto: 12 },
+                    { label: "GRUPO COMANDO", correcto: 3 },
+                    { label: "ESCUADRA DE MANOS LIBRES", correcto: 12 },
+                    { label: "ESCUADRA DE RESERVA", correcto: 11 },
+                    { label: "TOTAL", correcto: 50 }
+                ],
+                ans: [12, 12, 3, 12, 11, 50]   // mismo orden
+            },
+            { q: "Los tipos de munición no letal en dotación de la Armada.", opts: ["a) Cartuchos 12mm de goma", "b) Cartuchos de saquete", "c) Cartuchos aturdidores", "d) Granadas de mano (CS)", "e) Gas pimienta (OC)", "f) Todas las anteriores", "g) Ninguna de las anteriores"], ans: "f" },
+            { q: "Cubre una amplia área frontal. Ideal para contención masiva. formando una barrera que permite el avance frontal con capacidad de confrontación y respuesta inmediata. Es la más básica y comúnmente usada.", opts: ["a) Formación en línea.", "b) Formación en fila.", "c) Formación en columna.", "d) Formación en Cuña."], ans: "a" },
+            { q: "La escuadra manos libres, Se posesiona atrás del grupo comando y está a órdenes del jefe de pelotón Equipamiento completo, Armamento menos letal, kit de medicina táctica y extintor de", opts: ["V", "F"], ans: "V" },
+            { q: "El uso de la fuerza letal está autorizado cuando sea en legítima defensa, cuando no esté en peligro su vida y la de terceros.", opts: ["V", "F"], ans: "F" },
+            { q: "La formación en cuña formación ofensiva en forma de triángulo, se emplea para escoltar personas importantes y protegerlas ante agresiones por parte de la multitud", opts: ["V", "F"], ans: "V" },
+            { q: "Máscara antigás es un dispositivo de protección respiratoria diseñado para filtrar y bloquear la inhalación de gases tóxicos, vapores y partículas nocivas.", opts: ["V", "F"], ans: "V" },
+            { q: "Un casco anti-trauma está diseñado para proteger la cabeza contra impactos, golpes y proyectiles. Además, tienen viseras transparentes para proteger el rostro y permitir una buena visibilidad y están fabricados con materiales resistentes al golpe y fuego.", opts: ["V", "F"], ans: "V" },
+            { q: "El equipo de recuperación, aprehensión y extracción esta conformado por: 02 TIRADORES, 06 ESCUDOS, 02 MANOS LIBRES", opts: ["V", "F"], ans: "V" },
+            { q: "Unir con una línea según corresponda: tipos de munición tiene un pelotón antimotines y cuál es el alcance de la munición", opts: ["GAS LACRIMOGENO 10-20 m, SAQUETE hacia arriba de la multitud, ATURDIDORA 30-50 m, GOMA 35-300 m"], ans: "GAS LACRIMOGENO 10-20 m, SAQUETE hacia arriba de la multitud, ATURDIDORA 30-50 m, GOMA 35-300 m" },
+            { q: "LA ARMADURA CORPORAL COMPLETA Está diseñada para ofrecer __________ contra impactos físicos, como golpes, lanzamientos de objetos y __________ contundentes.", opts: ["a) Ofrecen protección / Ataques con armas", "b) Ofrecen encubrimientos / Ataques con palos", "c) Todas las anteriores", "d) Ninguna de las anteriores"], ans: "a" },
+            { q: "FORMACIONES GUARDIA DOBLE", opts: ["a) Formación ofensiva en forma de triángulo, se emplea para escoltar personas importantes y protegerlas ante agresiones por parte de la multitud.", "b) Esta formación Implica que las escuadras de apoyo y reserva se alineen en una o varias filas, en la parte frontal.", "c) Esta formación se usa durante un corto tiempo y para la toma de decisión, uno de los principales objetivos es la protección del personal, la contención de elementos contundentes y la dispersión de la multitud.", "d) Se emplea cuando necesitamos tener todos los escudos en la parte frontal.", "e) A y C son correctas"], ans: "c" }
+        ];
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function cargarPreguntas() {
+            shuffle(preguntas);
+            const form = document.getElementById("examenForm");
+            form.innerHTML = "";
+            preguntas.forEach((p, index) => {
+                const div = document.createElement("div");
+                div.className = "question";
+                div.innerHTML = `<strong>${index + 1}. ${p.q}</strong>`;
+
+                /* ---------- tabla limpia para pregunta 9 ---------- */
+                if (p.tipo === "input") {
+                    div.innerHTML += `
+    <table class="tabla-anti">
+      <thead>
+        <tr><th>Equipo</th><th>Cantidad</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>ESCUADRA DE INTERVENCIÓN</td><td><input type="number" min="0" max="99" name="q${index}_0"></td></tr>
+        <tr><td>ESCUADRA DE APOYO</td><td><input type="number" min="0" max="99" name="q${index}_1"></td></tr>
+        <tr><td>GRUPO COMANDO</td><td><input type="number" min="0" max="99" name="q${index}_2"></td></tr>
+        <tr><td>ESCUADRA DE MANOS LIBRES</td><td><input type="number" min="0" max="99" name="q${index}_3"></td></tr>
+        <tr><td>ESCUADRA DE RESERVA</td><td><input type="number" min="0" max="99" name="q${index}_4"></td></tr>
+        <tr><td>TOTAL</td><td><input type="number" min="0" max="99" name="q${index}_5"></td></tr>
+      </tbody>
+    </table>`;
+                }
+                /* ---------- fin tabla ---------- */
+
+
+                /* ---------- radio botones (resto) ---------- */
+                else {
+                    div.innerHTML += `<div class="options">`;
+                    p.opts.forEach(opt => {
+                        const value = opt.charAt(0);
+                        div.innerHTML += `
+                <div class="options">
+                    <label>
+                    <input type="radio" name="q${index}" value="${value}">
+                    ${opt}
+                    </label>
+                </div>`;
+                    });
+                    div.innerHTML += `</div>`;
+                }
+
+                form.appendChild(div);
+            });
+        }
+
+        function corregir() {
+            let correctas = 0;
+            preguntas.forEach((p, i) => {
+                const div = document.querySelectorAll(".question")[i];
+
+                /* ---------- validación input numérico ---------- */
+                if (p.tipo === "input") {
+                    let ok = 0;
+                    p.ans.forEach((val, j) => {
+                        const user = document.querySelector(`input[name="q${i}_${j}"]`)?.value;
+                        if (Number(user) === val) ok++;
+                    });
+                    if (ok === p.ans.length) {
+                        correctas++;
+                        div.classList.add("correct");
+                    } else {
+                        div.classList.add("incorrect");
+                    }
+                    return; // saltar chequeo radio
+                }
+
+                /* ---------- validación radio botones ---------- */
+                const seleccion = document.querySelector(`input[name="q${i}"]:checked`);
+                if (seleccion && seleccion.value.toLowerCase() === p.ans.toLowerCase()) {
+                    correctas++;
+                    div.classList.add("correct");
+                } else {
+                    div.classList.add("incorrect");
+                }
+            });
+            document.getElementById("resultado").innerText = `Obtuviste ${correctas} de ${preguntas.length} respuestas correctas.`;
+        }
+
+        window.onload = cargarPreguntas;
+    </script>
+
+</body>
+
+</html>

@@ -15,3 +15,32 @@
 .options input[type="radio"] {
   margin-right: 10px;
 }
+
+.tabla-anti {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 420px;
+  margin: 10px auto 0 auto;   /* centrado */
+  font-size: 14px;
+  text-align: center;
+}
+.tabla-anti th,
+.tabla-anti td {
+  border: 1px solid #999;
+  padding: 6px 4px;
+}
+.tabla-anti th {
+  background: #f2f2f2;
+  font-weight: 600;
+}
+.tabla-anti tr:nth-child(even) td {
+  background: #fafafa;
+}
+.tabla-anti input[type="number"] {
+  width: 55px;
+  text-align: center;
+  border: 1px solid #bbb;
+  border-radius: 3px;
+  padding: 3px;
+}
+

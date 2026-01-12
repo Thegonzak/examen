@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Examen Simulado – Módulo II MARO a CBOS</title>
+  <style>
+    body{font-family:Arial,sans-serif;margin:20px;background:#f9f9f9}
+    h1{color:#004080}
+    .question{margin-bottom:15px}
+    .options label{display:block;margin:6px 0;padding:8px 12px;background:#f0f4f8;border-radius:6px;cursor:pointer;transition:background .2s}
+    .options label:hover{background:#dde4ea}
+    .options input[type="radio"]{margin-right:10px}
+    .correct{color:green;font-weight:bold}
+    .incorrect{color:red;font-weight:bold}
+    #resultado{margin-top:20px;font-size:1.2em}
+    button{margin-top:20px;padding:10px 20px;font-size:16px}
+  </style>
+</head>
+<body>
+
+  <h1>Examen Simulado – Módulo II MARO a CBOS</h1>
+  <form id="examenForm"></form>
+  <button onclick="corregir()">Corregir</button>
+  <div id="resultado"></div>
+
+  <script>
+    const preguntas = [
+      { q: "¿LOS REPARTOS DE LA ARMADA DEBEN CONTAR CON EL SISLOG?", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "¿TODOS LOS EQUIPOS NAVALES DEBEN ESTAR INGRESADOS EN EL SISLOG?", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "EL IFUL: ¿ES EL INFORME DE FALLAS DE LOS EQUIPOS?", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "COMPLETE: ________ COGMAR-LOG-001 ________, 13 marzo del", opts: ["A. D.G.F ;2019R", "B. D.G.P ;2019Z", "C. D.G.P :2019R", "D. D.P.G :2015R"], ans: "C" },
+      { q: "El mantenimiento preventivo se realiza únicamente cuando el equipo ya ha fallado", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "Complete la frase: El mantenimiento _________ se basa en inspecciones programadas y el mantenimiento _________ implica el reemplazo de componentes antes de que ocurra una falla", opts: ["A. PREVENTIVO, CORRECTIVO", "B. CORRECTIVO, PREDICTIVO", "C. PREDICTIVO, PREVENTIVO", "D. PREVENTIVO, PREDICTIVO"], ans: "A" },
+      { q: "EL CONCEPTO DE MANTENIMIENTO: ESTÁ CENTRADO EN CONFIABILIDAD COMBINA DIFERENTES ENFOQUES PARA MAXIMIZAR LA DISPONIBILIDAD DEL EQUIPO Y ALARGAR LA VIDA", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "¿PARA EL MANTENIMIENTO DE EQUIPOS NAVALES ES NECESARIO QUE UNA PERSONA ESTÉ CAPACITADA?", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "¿CÓMO MANTENER UN EQUIPO NAVAL EN ÓPTIMAS CONDICIONES? REALIZAR LIMPIEZAS _______, SEGUIR PLAN DE MANTENIMIENTO _______, ASEGÚRATE DE UNA BUENA _______ Y EVITAR EL", opts: ["A. FRECUENTES, EFECTIVO, VENTILACIÓN", "B. SIEMPRE, CORRECTO, CALIDAD", "C. DE VEZ EN CUANDO, REALIZADO, CALIDAD", "D. SIEMPRE, REALIZADO, VENTILACIÓN"], ans: "A" },
+      { q: "¿Qué es el mantenimiento de equipos?", opts: ["A. Es la acción de ejecutar, mantener en óptimas condiciones y buen estado para alargar la vida de los", "B. Es la acción de ejecutar, mantener en óptimas condiciones y mal estado para alargar la vida de los", "C. Es la acción de ejecutar, mantener en óptimas condiciones y buen estado para no alargar la vida de los", "D. Todas son correctas"], ans: "A" },
+      { q: "Los tres tipos de mantenimiento son: preventivo, correctivo y", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "DIMARE sus siglas son:", opts: ["A. Dirección de Mantenimiento y Recuperación de Unidades Navales y Artillería.", "B. Dirección de Mantenimiento y Recuperación", "C. Dirección de Mantenimiento y Artillería", "D. Ninguna de las anteriores"], ans: "A" },
+      { q: "¿Cuál NO es una capa del ciberespacio?", opts: ["A) Física", "B) Lógica", "C) Social", "D) Estratégica"], ans: "D" },
+      { q: "¿Cuáles son los pilares de la seguridad cibernética?", opts: ["A) Autenticación, autorización y auditoría", "B) Prevención, detección y respuesta", "C) Seguridad física, lógica y social", "D) Confidencialidad, integridad y disponibilidad"], ans: "D" },
+      { q: "¿Cuántos ejes de acción (pilares) tiene la Estrategia Nacional de Ciberseguridad?", opts: ["A) Cuatro", "B) Cinco", "C) Seis", "D) Siete"], ans: "C" },
+      { q: "¿En el EGSI, existe el TRABAJO REMOTO como CONTROL DE PERSONAS?", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "¿Qué ámbito busca fortalecer el eje 6 de la Estrategia Nacional?", opts: ["A) Educación superior", "B) Seguridad física", "C) Cooperación internacional", "D) Defensa territorial"], ans: "C" },
+      { q: "¿Qué busca el eje 2 de la Estrategia Nacional de Ciberseguridad?", opts: ["A) Promover la ciberdiplomacia", "B) Mejorar la resiliencia cibernética", "C) Incrementar el presupuesto militar", "D) Regular el comercio electrónico"], ans: "B" },
+      { q: "¿Qué busca el eje 4 de la Estrategia Nacional de Ciberseguridad?", opts: ["A) Fortalecer la ciberdefensa del Estado", "B) Regular redes sociales", "C) Controlar proveedores de Internet", "D) Ninguna de las anteriores"], ans: "A" },
+      { q: "¿Qué documento conceptualiza el ciberespacio como dominio de la guerra?", opts: ["A) ISO 27000", "B) Estrategia Nacional de Ciberseguridad", "C) Reglamento RT3IV", "D) Manual de Ciberdefensa"], ans: "D" },
+      { q: "¿Qué es una vulnerabilidad?", opts: ["A) Un ataque exitoso", "B) Un evento inesperado", "C) Un agujero de seguridad aprovechable", "D) Una amenaza materializada"], ans: "C" },
+      { q: "¿Qué institución presentó oficialmente la Estrategia Nacional de Ciberseguridad?", opts: ["A) Ministerio de Defensa", "B) Ministerio del Interior", "C) Ministerio de Telecomunicaciones", "D) Asamblea Nacional"], ans: "C" },
+      { q: "¿Qué representa el riesgo en seguridad de la información?", opts: ["A) El daño causado", "B) La probabilidad de que una amenaza se materialice", "C) El ataque ejecutado", "D) La vulnerabilidad existente"], ans: "B" },
+      { q: "¿Qué tipo de actividades comprende la ciberdefensa?", opts: ["A) Solo defensivas", "B) Preventivas únicamente", "C) Defensivas, ofensivas y de inteligencia", "D) Administrativas"], ans: "C" },
+      { q: "El CERT nacional participa en la gestión de incidentes cibernéticos.", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "El conocimiento se deriva de los datos, así como los datos se deriva de la información.", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "El EGSI es de implementación obligatoria en la entidades, organismos e instituciones del sector público y privado.", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "El impacto sería el alcance producido o daño causado en caso de que una amenaza se materialice.", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "Etapas de evaluación de la VULNERABILIDAD.", opts: ["A) Clasificación, Análisis, Priorización, Reparación", "B) Identificación, Análisis, Priorización, Notificación", "C) Identificación, Análisis, Priorización, Reparación", "D) Ninguna de las anteriores"], ans: "C" },
+      { q: "La ciberdefensa está orientada únicamente a acciones defensivas.", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "La Estrategia Nacional de Ciberseguridad solo aplica al sector público.", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "La información es el conjunto de datos procesados y que tienen un significado (relevancia, propósito y contexto), y que por lo tanto son de utilidad para quien debe tomar decisiones, al disminuir su", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "La máxima autoridad designará al interior de la Institución, un Comité de Seguridad Informática", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "La seguridad de la información busca la protección de la información en todo tipo de medios, tanto digitales como", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "La seguridad de la información es el paraguas que abarca el resto de disciplinas (ciberseguridad, seguridad informática, seguridad de TI, seguridad de aplicaciones,", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "La seguridad es:", opts: ["A) Estado en el cual los peligros y las condiciones que pueden provocar daños son eliminadas.", "B) Estado en el cual los hackers y las condiciones que pueden provocar daños son controlados.", "C) Estado en el cual los peligros y las condiciones que pueden provocar daños son controlados.", "D) Ninguna de las anteriores"], ans: "C" },
+      { q: "Las AMENAZAS de tipo HUMANAS son: Maliciosas y", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "Las amenazas se materializan a través de:", opts: ["A) Riesgos", "B) Impactos", "C) Vulnerabilidades", "D) Ataques"], ans: "D" },
+      { q: "Los controles de seguridad se implementan siguiendo las directrices del:", opts: ["A) SGSI", "B) EGSI", "C) ISO 2700", "D) Ninguna de las anteriores"], ans: "B" },
+      { q: "Son la mínima unidad semántica, y se corresponden con elementos secundarios de información que son relevantes como apoyo a la toma de", opts: ["A) Datos", "B) Información", "C) Conocimiento", "D) Ninguna de las anteriores"], ans: "D" },
+      { q: "Son las instalaciones, redes, sistemas y equipos físicos y de tecnología de la información sobre las que descansa el funcionamiento de los servicios", opts: ["A) Infraestructura Social", "B) Infraestructura Estratégica", "C) Infraestructura Crítica", "D) Infraestructura Gubernamental"], ans: "B" },
+      { q: "Legalidad es emplear la fuerza se deben agotar todos los medios pacíficos disponibles y cuando estos medios resulten ineficaces o no garanticen de ninguna manera el logro del objetivo legal", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "Necesidad es el uso de la fuerza debe estar dirigido a lograr el objetivo legal. Los medios y métodos usados deben estar de acuerdo con las normas", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "Proporcionalidad es la moderación y proporción a la gravedad de la amenaza y al objetivo legal que se persigue. Esta debe tener relación con la gravedad del delito flagrante y conducta del sujeto que impida el cumplimiento de la misión y la clase y la magnitud de la oposición que éste", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "Principio de necesidad es toda actividad de combate debe justificarse a través de motivos militares, por lo cual están prohibidas las actividades que no sean militarmente", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "Principio de distinción las partes en conflicto deben distinguir en todo momento entre personas civiles y", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "Principio de humanidad es \"Evaluar si los medios (armas) y los métodos (tácticas) escogidos son lícitos y si representan \\\"el menor\\\" peligro para las personas y bienes civiles y reducen al máximo el número de víctimas y de", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "Principio de limitación de los medios y métodos es Las personas civiles y las personas puestas fuera de combate deben ser tratadas con", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "¿Cuál es el orden correcto de la escala racional del uso de la fuerza, de menor a mayor nivel?", opts: ["A) Advertencias verbales → Técnica suave → Fuerza no mortal → Fuerza mortal", "B) Técnica suave → Advertencias verbales → Fuerza mortal → Fuerza no mortal", "C) Fuerza no mortal → Fuerza mortal → Advertencias verbales → Técnica suave", "D) Advertencias verbales → Fuerza mortal → Técnica suave → Fuerza no mortal"], ans: "A" },
+      { q: "Es el principal tratado que establece normas para la protección de personas que no participan en las hostilidades, incluyendo heridos y prisioneros de", opts: ["A) Convenio de Ginebra de 1949", "B) Protocolo Adicional I", "C) Protocolo Adicional II"], ans: "A" },
+      { q: "El DIH es un conjunto de normas que procuran limitar los efectos del conflicto armado, sobre las personas, entre ellas civiles que no participan o han dejado de participar en el", opts: ["A. Verdadero", "B. Falso"], ans: "A" },
+      { q: "¿Cuáles son los principales objetivos del DIH, en un conflicto armado?", opts: ["A) Restringir los medio y métodos de guerra", "B) Limitar y evitar el sufrimiento humano", "C) Proteger a las personas que no participan", "D) Todas las anteriores"], ans: "D" },
+      { q: "Para lograr el objetivo del DIH, se han establecidos varios convenios y protocolos que son:", opts: ["A) Los 4 Convenios de Ginebra, Declaración Universal de los DD.HH., Pacto Internacional de Derechos Económicos; y la Convención sobre el Derechos del Niño", "B) Los 4 Convenios de Ginebra, Protocolos adicionales al CG, La convención de La Haya de 1964, Convención contra armas bacteriológicas, Convención sobre armas químicas", "C) Declaración Universal de los DD.HH., Convención sobre la eliminación de formas de discriminación contra la mujer y la Convención sobre el Derechos del Niño"], ans: "B" },
+      { q: "Los principios fundamentales del DIH que representan el mínimo de humanidad aplicable para interpretar las normas en los conflictos armados son:", opts: ["A) Necesidad Militar, Limitación, Distinción, Proporcionalidad y Humanidad", "B) Necesidad Militar, Limitación, Derechos civiles y proporcionalidad", "C) Necesidad Militar, Derechos Humanos, Proporcionalidad y Humanidad"], ans: "A" },
+      { q: "¿Cuáles son los deberes y obligaciones del personal de Salud?", opts: ["A) Abandonar a los heridos o enfermos en época de guerra", "B) Asistencia Humanitaria y atención médica a los heridos sin distinción", "C) Abastecer de municiones a las tropas en época de guerra"], ans: "B" },
+      { q: "El Desarrollo del DIH moderno puede atribuirse a los esfuerzos de:", opts: ["A) Henry Ford", "B) Henry Dominique", "C) Henry Dunant"], ans: "C" },
+      { q: "El símbolo de la Cruz Blanca sobre fondo rojo se emplea como emblema de protección del personal, equipo y los centros médicos", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "¿Qué significan las siglas CICR?", opts: ["A) Comisión Internacional De La Cruz Roja", "B) Comité Internacional De La Cruz Roja", "C) Consejo Internacional De La Cruz Roja", "D) Ninguna de las anteriores"], ans: "B" },
+      { q: "¿En qué año se crearon los Protocolos adicionales I y II para la protección de las víctimas?", opts: ["A) 1979", "B) 1987", "C) 1977"], ans: "C" },
+      { q: "¿Cuál es el objetivo principal del Convenio de Ginebra II de 1906?", opts: ["A) Proteger exclusivamente a la población civil en tiempo de guerra", "B) Regular el comercio marítimo durante los conflictos armados", "C) Mejorar la suerte de los militares heridos, enfermos o náufragos en las fuerzas armadas", "D) Regular el trato a los prisioneros de guerra"], ans: "C" },
+      { q: "¿Cuál es el objetivo principal del Convenio de Ginebra III de 1929?", opts: ["A) Proteger exclusivamente a la población civil durante los conflictos armados", "B) Mejorar la suerte de los heridos y enfermos de los ejércitos en campaña y regular el trato de los prisioneros de guerra", "C) Regular el uso de armas en conflictos armados", "D) Proteger a los náufragos en conflictos marítimos"], ans: "B" },
+      { q: "¿Cuál fue el hecho histórico que marcó el inicio del DIH moderno?", opts: ["A) La Primera Guerra Mundial", "B) La Batalla de Solferino", "C) La Revolución Francesa", "D) La Segunda Guerra Mundial"], ans: "B" },
+      { q: "¿Qué establece el principio de distinción?", opts: ["A) Atacar solo en zonas rurales", "B) Diferenciar entre civiles y combatientes", "C) Priorizar la ventaja política", "D) Usar cualquier medio de combate"], ans: "B" },
+      { q: "¿Qué instrumento jurídico regula principalmente los conflictos armados no internacionales?", opts: ["A) Convención de Viena", "B) Protocolo I", "C) Protocolo II", "D) Carta de las Naciones Unidas"], ans: "C" },
+      { q: "¿Qué organización humanitaria surgió como consecuencia de la Batalla de Solferino?", opts: ["A) Naciones Unidas", "B) Comité Internacional de la Cruz Roja", "C) Amnistía Internacional", "D) Liga de las Naciones"], ans: "B" },
+      { q: "¿Cuál es el objetivo principal del Convenio de Ginebra I de 1864?", opts: ["A) Regular el comercio en guerra", "B) Proteger a los civiles", "C) Mejorar la suerte de los militares heridos en campaña", "D) Regular prisioneros de guerra"], ans: "C" },
+      { q: "El Derecho Internacional Humanitario surge para promover el uso ilimitado de la fuerza en los conflictos", opts: ["A) True", "B) False"], ans: "B" },
+      { q: "El origen del DIH está vinculado a la necesidad de proteger la dignidad", opts: ["A) True", "B) False"], ans: "A" },
+      { q: "El principio de distinción obliga a diferenciar entre combatientes y", opts: ["A) True", "B) False"], ans: "A" },
+      { q: "El principio de humanidad se aplica únicamente a los", opts: ["A) True", "B) False"], ans: "B" },
+      { q: "El principio de necesidad militar autoriza el uso ilimitado de la fuerza durante un conflicto", opts: ["A) True", "B) False"], ans: "B" },
+      { q: "El Protocolo I del DIH se aplica principalmente a:", opts: ["A) Conflictos armados no internacionales", "B) Conflictos armados internacionales", "C) Conflictos internos menores", "D) Estados en tiempos de paz"], ans: "B" },
+      { q: "El Protocolo II se enfoca en los conflictos armados no", opts: ["A) True", "B) False"], ans: "A" },
+      { q: "Henry Dunant fue una figura clave en el origen del DIH", opts: ["A) True", "B) False"], ans: "A" },
+      { q: "Las normas del Derecho Internacional Humanitario deben ser respetadas por:", opts: ["A) Solo las fuerzas armadas", "B) Solo los civiles", "C) Todas las partes en conflicto", "D) Únicamente organismos internacionales"], ans: "C" },
+      { q: "Los principios del Derecho Internacional Humanitario buscan limitar la conducción de los conflictos armados para reducir el sufrimiento", opts: ["A) True", "B) False"], ans: "A" },
+      { q: "Los principios del DIH buscan reducir el sufrimiento humano durante los conflictos", opts: ["A) True", "B) False"], ans: "A" },
+      { q: "Un conflicto armado internacional ocurre cuando la confrontación armada se desarrolla entre dos o más", opts: ["A) True", "B) False"], ans: "A" },
+      { q: "¿Cuál es el objetivo de la operación de equipos?", opts: ["A) Eficiencia, seguridad y prolongar vida útil.", "B) Eficiencia, seguridad y estabilidad", "C) Seguridad, estabilidad y productividad", "D) Ninguna de las anteriores"], ans: "A" },
+      { q: "¿Cuáles son las principales medidas de seguridad en la operación de equipo?", opts: ["A) Uso correcto de herramientas, señalización, orden y limpieza, inspección y mantenimiento, distancia segura, comunicación.", "B) Señalización, orden y limpieza, inspección y mantenimiento, distancia segura", "C) Orden y limpieza, inspección y mantenimiento, distancia segura, señalética", "D) Ninguna de las anteriores"], ans: "A" },
+      { q: "¿Cuáles son los principales equipamientos básicos de seguridad?", opts: ["A) Cascos, gafas, guantes, orejeras, botas punta de acero, ropa de trabajo", "B) Cascos, guantes, botas punta de acero, ropa de trabajo, cuchillo", "C) Relojes, cascos, guantes, botas, ropa de trabajo, cuchillo", "D) Ninguna de las anteriores"], ans: "A" },
+      { q: "En caso de un accidente eléctrico lo primero que se debe hacer es dar la alarma para que alguien se encargue de avisar a los servicios de emergencia y a un", opts: ["A. VERDADERO", "B. FALSO"], ans: "A" },
+      { q: "Está autorizado al realizar trabajos normales el uso de anillos, relojes, cadenas y demás accesorios:", opts: ["A. Falso", "B. Verdadero"], ans: "A" },
+      { q: "La inspección y mantenimiento como norma de seguridad consiste en: No realizar inspecciones regulares de los equipos para identificar posibles fallas o desgaste que puedan causar", opts: ["A. Falso", "B. Verdadero"], ans: "A" },
+      { q: "La operación de equipos son todos los .................procedimientos claros para el uso ................de los equipos, incluyendo cómo..................operarlos, detenerlos y realizar tareas", opts: ["A. Procedimientos, correcto, encenderlos, específicas", "B. Pasos, incorrectos, encenderlos, específicas", "C. Estudios, apropiado, manipular, técnicas", "D. Ninguna de las anteriores"], ans: "A" },
+      { q: "Los primeros auxilios como el RCP, es una atención inmediata que la brinda sola y exclusivamente la ayuda médica profesional a una persona", opts: ["A. Verdadero", "B. Falso"], ans: "B" },
+      { q: "Los primeros auxilios son la atención inmediata y temporal que se le brinda a una persona lesionada antes de que llegue la ayuda médica profesional. El objetivo es estabilizar la lesión, prevenir complicaciones y, si es posible, salvar", opts: ["A. Los primeros auxilios son la atención inmediata y temporal que se le brinda a una persona lesionada antes de que llegue la ayuda médica profesional. El objetivo es estabilizar la lesión, prevenir complicaciones y, si es posible, salvar", "B. Los primeros auxilios es la atención normal que se le brinda a una persona lesionada antes de que llegue la ayuda médica profesional. El objetivo es estabilizar la lesión, prevenir y siga laborando.", "C. Los primeros auxilios es la atención médica profesional que se le brinda a una persona lesionada. El objetivo es estabilizar la lesión, prevenir y siga laborando.", "D. Ninguna de las anteriores"], ans: "A" },
+      { q: "Mantener una distancia considerable de los equipos en movimiento, especialmente en operaciones con maquinaria pesada. Evitar estar en puntos ciegos o áreas donde los equipos puedan desplazarse pertenece a:", opts: ["A) Zona de seguridad", "B) Distancia segura", "C) Zona de tránsito", "D) Ninguna de las anteriores"], ans: "B" }
+    ];
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function cargarPreguntas() {
+      shuffle(preguntas);
+      const form = document.getElementById("examenForm");
+      form.innerHTML = "";
+      preguntas.forEach((p, index) => {
+        const div = document.createElement("div");
+        div.className = "question";
+        div.innerHTML = `<strong>${index + 1}. ${p.q}</strong><div class="options">`;
+        p.opts.forEach(opt => {
+          const value = opt.charAt(0);
+          div.innerHTML += `
+            <div class="options">
+                <label>
+                <input type="radio" name="q${index}" value="${value}">
+                ${opt}
+                </label>
+            </div>`;
+        });
+        div.innerHTML += `</div>`;
+        form.appendChild(div);
+      });
+    }
+
+    function corregir() {
+      let correctas = 0;
+      preguntas.forEach((p, i) => {
+        const seleccion = document.querySelector(`input[name="q${i}"]:checked`);
+        const div = document.querySelectorAll(".question")[i];
+        if (seleccion && seleccion.value.toLowerCase() === p.ans.toLowerCase()) {
+          correctas++;
+          div.classList.add("correct");
+        } else {
+          div.classList.add("incorrect");
+        }
+      });
+      document.getElementById("resultado").innerText = `Obtuviste ${correctas} de ${preguntas.length} respuestas correctas.`;
+    }
+
+    window.onload = cargarPreguntas;
+  </script>
+
+</body>
+</html>

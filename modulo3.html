@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Examen Simulado – Módulo III (Tercer Grupo)</title>
+  <style>
+    body{font-family:Arial,sans-serif;margin:20px;background:#f9f9f9}
+    h1{color:#004080}
+    .question{margin-bottom:15px}
+    .options label{display:block;margin:6px 0;padding:8px 12px;background:#f0f4f8;border-radius:6px;cursor:pointer;transition:background .2s}
+    .options label:hover{background:#dde4ea}
+    .options input[type="radio"]{margin-right:10px}
+    .correct{color:green;font-weight:bold}
+    .incorrect{color:red;font-weight:bold}
+    #resultado{margin-top:20px;font-size:1.2em}
+    button{margin-top:20px;padding:10px 20px;font-size:16px}
+  </style>
+</head>
+<body>
+
+  <h1>Examen Simulado – Módulo III (Tercer Grupo)</h1>
+  <form id="examenForm"></form>
+  <button onclick="corregir()">Corregir</button>
+  <div id="resultado"></div>
+
+  <script>
+    const preguntas = [
+      { q: "1. ¿En qué cubierta y sección se encuentra la Sala de Radio de una fragata?", opts: ["a) 1H", "b) 2G", "c) 2F", "d) 3M"], ans: "b" },
+      { q: "2. ¿En qué sección se encuentra la Sala de UHF de una fragata?", opts: ["a) 1J", "b) 2G", "c) 2F", "d) 3K"], ans: "c" },
+      { q: "3. ¿Cómo se identifica visualmente una antena transmisora y receptora de HF?", opts: ["a) Por el tamaño de la antena.", "b) Por la altura de instalación.", "c) Por el color de sus bases (Roja TX / Azul RX).", "d) Por el tipo de cableado"], ans: "c" },
+      { q: "4. ¿Cuál de los siguientes equipos es utilizado como apoyo a la navegación?", opts: ["a) Radar 903.", "b) GPS MAGELLAN", "c) Consola MAITEN", "d) Sistema SP100"], ans: "b" },
+      { q: "5. ¿Cuál es la función principal del radar 965Q en las fragatas?", opts: ["a) Navegación costera.", "b) Control de helicópteros.", "c) Rebusca de contactos aéreos a larga distancia y gran altura.", "d) Detección submarina"], ans: "c" },
+      { q: "6. ¿Cuál es la función principal del radar 992Q?", opts: ["a) Ayuda a la navegación.", "b) Detección de contactos aéreos y de superficie.", "c) Control de tiro.", "d) Comunicaciones"], ans: "b" },
+      { q: "7. El radar 1006 se utiliza principalmente para:", opts: ["a) Rebusca aérea de largo alcance.", "b) Guerra electrónica.", "c) Ayuda a la navegación, control de helicópteros y detección de superficie", "d) Control de armas"], ans: "c" },
+      { q: "8. ¿Cuál es el sistema de mando y control que poseen las fragatas?", opts: ["a) ORIÓN", "b) MAITEN", "c) SP 100", "d) EPMS"], ans: "c" },
+      { q: "9. ¿Cuántas balsas salvavidas posee una fragata y cuál es su capacidad?", opts: ["a) 6 balsas de 20 personas", "b) 8 balsas de 30 personas", "c) 9 balsas de 25 personas cada una", "d) 5 balsas de 15 personas"], ans: "c" },
+      { q: "10. ¿Cuáles son las estaciones de rescate existentes a bordo de una fragata?", opts: ["a) 01 tangón y 01 red", "b) 02 tangones y 02 redes de salvataje (BB y EB)", "c) 04 tangones", "d) Solo redes de salvataje"], ans: "b" },
+      { q: "11. ¿Cuál de los siguientes componentes pertenece al sistema MAITEN?", opts: ["a) Radar 1006", "b) GPS MAGELLAN", "c) CAÑON 4.5", "d) Radar 965Q"], ans: "c" },
+      { q: "12. ¿Cuántos generadores principales posee una fragata?", opts: ["a) Dos turboalternadores y un diésel generador", "b) Un turboalternador y dos diésel generadores", "c) Dos turboalternadores y dos diésel generadores", "d) Tres diésel generadores"], ans: "c" },
+      { q: "13. ¿Cuál es la función principal de las plantas de aire acondicionado?", opts: ["a) Ventilar bodegas", "b) Mantener humedad y temperatura adecuada en dependencias y equipos electrónicos", "c) Refrigerar alimentos", "d) Enfriar motores"], ans: "b" },
+      { q: "14. ¿Cuál es la presión de trabajo de las calderas principales?", opts: ["a) 550 lbs/pulg²", "b) 600 lbs/pulg²", "c) 700 lbs/pulg²", "d) 800 lbs/pulg²"], ans: "a" },
+      { q: "15. ¿Cuántas palas tienen las hélices de una fragata?", opts: ["a) 2", "b) 3", "c) 4", "d) 5"], ans: "d" },
+      { q: "16. Dentro de los pañoles de víveres de una fragata se encuentran:", opts: ["a) Pañol de proa", "b) Frigoríficos", "c) Pañol de popa", "d) Todas las anteriores"], ans: "d" },
+      { q: "17. ¿Cuántos grifos existen a bordo de una fragata?", opts: ["a) 20", "b) 30", "c) 51", "d) 60"], ans: "c" },
+      { q: "18. ¿Cuál es la capacidad total de agua de bebida de una fragata?", opts: ["a) 121 m³", "b) 200 m³", "c) 300 m³", "d) 350 m³"], ans: "a" },
+      { q: "19. Las mangueras de 2 pulgadas se utilizan principalmente en cubiertas exteriores.", opts: ["a) Verdadero", "b) Falso"], ans: "a" },
+      { q: "20. Los extintores de uso a bordo incluyen CO₂ y polvo químico.", opts: ["a) Verdadero", "b) Falso"], ans: "a" },
+      { q: "21. ¿Cuántos tableros de distribución eléctrica existen a bordo de una fragata?", opts: ["a) 3: Tablero principal, tablero auxiliar y tablero de bajo voltaje", "b) 2: Tablero principal y tablero auxiliar", "c) 1: Tablero auxiliar", "d) 4: Principal, auxiliar, emergencia y bajo voltaje"], ans: "a" },
+      { q: "22. ¿Cuál de las siguientes opciones indica correctamente dos tipos de pitones usados a bordo de una fragata y su propósito?", opts: ["a) Chorro directo (ataque) -- Espuma (enfriamiento)", "b) Spray--Jet (ataque) y Jet--Spray (pared de agua)", "c) Niebla (ataque) -- Espuma (protección)", "d) Jet--Jet (ataque) y Spray--Spray (enfriamiento)"], ans: "b" },
+      { q: "23. ¿Cuál es el número de secciones estancas que posee una fragata?", opts: ["a) 13 secciones estancas", "b) 06 secciones estancas", "c) 08 secciones estancas", "d) Ninguna de las anteriores"], ans: "a" },
+      { q: "24. ¿Cuántas bombas sumergibles eléctricas existen a bordo de una fragata?", opts: ["a) 02 bombas sumergibles eléctricas", "b) 05 bombas sumergibles eléctricas", "c) 06 bombas sumergibles eléctricas", "d) Ninguna de las anteriores"], ans: "a" },
+      { q: "25. Las bombas sumergibles a bordo de una fragata son de accionamiento manual.", opts: ["a) Verdadero", "b) Falso"], ans: "a" },
+      { q: "26. El desplazamiento aproximado de la unidad tipo Corbeta es:", opts: ["A) 550 toneladas", "B) 685 toneladas", "C) 720 toneladas", "D) 800 toneladas"], ans: "b" },
+      { q: "27. La velocidad máxima sostenida del buque es:", opts: ["A) 18 nudos", "B) 20 nudos", "C) 22 nudos", "D) 12 nudos"], ans: "c" },
+      { q: "28. La condición de estanqueidad que representa una avería inminente es:", opts: ["A) X", "B) Y", "C) Z", "D) R"], ans: "c" },
+      { q: "29. La función principal del sistema de gobierno es:", opts: ["A) Controlar velocidad", "B) Controlar el rumbo del buque", "C) Regular combustible", "D) Controlar generadores"], ans: "b" },
+      { q: "30. El sistema EPMS permite:", opts: ["A) Arrancar motores manualmente", "B) Controlar y monitorear la distribución eléctrica", "C) Controlar armamento", "D) Navegación automática"], ans: "b" },
+      { q: "31. El generador de emergencia utiliza motor:", opts: ["A) MTU", "B) Volvo", "C) Caterpillar", "D) Perkins"], ans: "c" },
+      { q: "32. El SGIR ORIÓN reemplaza a:", opts: ["A) NAVNET", "B) IPN-10 y NA-21", "C) AIS", "D) ECDIS"], ans: "b" },
+      { q: "33. El SGIR ORIÓN cuenta con:", opts: ["A) 2 consolas principales", "B) 3 consolas", "C) 4 consolas principales", "D) 1 consola"], ans: "c" },
+      { q: "34. El radar de navegación principal es:", opts: ["A) Kelvin Hughes", "B) FURUNO FAR 2117", "C) Raytheon", "D) Sperry"], ans: "b" },
+      { q: "35. El color ROJO en tuberías corresponde a:", opts: ["A) Combustible", "B) Aceites", "C) Sistema contra incendios", "D) Ventilación"], ans: "c" },
+      { q: "36. El sistema Twin Agent combina:", opts: ["A) Agua y CO₂", "B) Espuma AFFF y polvo químico seco", "C) Agua y espuma", "D) Gas y agua"], ans: "b" },
+      { q: "37. El sistema de achique sirve para:", opts: ["A) Refrigerar motores", "B) Eliminar agua no deseada del buque", "C) Incendios", "D) Ventilación"], ans: "b" },
+      { q: "38. La capacidad total de combustible del buque es superior a 40.000 galones.", opts: ["a) Verdadero", "b) Falso"], ans: "b" },
+      { q: "39. Las hélices de una Corbeta tienen 4 aspas.", opts: ["a) Verdadero", "b) Falso"], ans: "a" },
+      { q: "40. El generador de emergencia alimenta tableros principales de 440 VCA.", opts: ["a) Verdadero", "b) Falso"], ans: "b" },
+      { q: "41. El color rojo identifica a tuberías de gases inflamables.", opts: ["a) Verdadero", "b) Falso"], ans: "b" },
+      { q: "42. El sistema de JP1 es exclusivo para helicópteros", opts: ["a) Verdadero", "b) Falso"], ans: "a" },
+      { q: "43. ¿Cuántas máquinas principales tiene la unidad?", opts: ["a) 02 máquinas MTU", "b) 03 máquinas MTU", "c) 04 máquinas MTU", "d) 06 máquinas MTU"], ans: "c" },
+      { q: "44. ¿Cuántos generadores posee una Corbeta?", opts: ["a) 02 generadores principales y 01 de emergencia", "b) 03 generadores principales únicamente", "c) 03 generadores principales y 01 generador de emergencia", "d) 04 generadores principales"], ans: "c" },
+      { q: "45. ¿Dónde se encuentra ubicado el generador de emergencia?", opts: ["a) Banda de babor en la sala de máquinas", "b) Cubierta inferior bajo el COC", "c) Banda de estribor, cubierta principal, bajo la cubierta de vuelo", "d) En la popa del buque"], ans: "c" },
+      { q: "46. ¿Desde cuántos lugares puede gobernarse el buque?", opts: ["a) Desde un solo lugar", "b) Desde dos lugares", "c) Desde tres lugares", "d) Desde cuatro lugares"], ans: "b" },
+      { q: "47. ¿Cuál de los siguientes conjuntos corresponde a los equipos de posicionamiento del buque?", opts: ["a) Radar 903, GPS, ecosonda", "b) GPS, radar FURUNO, radar RAN 10S, girocompás y compás magnético", "c) Radar 965Q, GPS, sonar", "d) Compás magnético y ecosonda únicamente"], ans: "b" },
+      { q: "48. ¿Cuál de las siguientes opciones corresponde a un área restringida a bordo?", opts: ["a) Comedor de tripulación", "b) Cubierta de vuelo", "c) Sala de Radares", "d) Pañol de víveres"], ans: "c" },
+      { q: "49. El armamento menor se encuentra almacenado en la Santa Bárbara de proa.", opts: ["a) Verdadero", "b) Falso"], ans: "a" },
+      { q: "50. Los teléfonos automáticos forman parte de los sistemas de comunicaciones internas del buque.", opts: ["a) Verdadero", "b) Falso"], ans: "a" }
+    ];
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function cargarPreguntas() {
+      shuffle(preguntas);
+      const form = document.getElementById("examenForm");
+      form.innerHTML = "";
+      preguntas.forEach((p, index) => {
+        const div = document.createElement("div");
+        div.className = "question";
+        div.innerHTML = `<strong>${index + 1}. ${p.q}</strong><div class="options">`;
+        p.opts.forEach(opt => {
+          const value = opt.charAt(0).toLowerCase();
+          div.innerHTML += `
+           <div class="options">
+                <label>
+                <input type="radio" name="q${index}" value="${value}">
+                ${opt}
+                </label>
+            </div>`;
+        });
+        div.innerHTML += `</div>`;
+        form.appendChild(div);
+      });
+    }
+
+    function corregir() {
+      let correctas = 0;
+      preguntas.forEach((p, i) => {
+        const seleccion = document.querySelector(`input[name="q${i}"]:checked`);
+        const div = document.querySelectorAll(".question")[i];
+        if (seleccion && seleccion.value === p.ans) {
+          correctas++;
+          div.classList.add("correct");
+        } else {
+          div.classList.add("incorrect");
+        }
+      });
+      document.getElementById("resultado").innerText = `Obtuviste ${correctas} de ${preguntas.length} respuestas correctas.`;
+    }
+
+    window.onload = cargarPreguntas;
+  </script>
+
+</body>
+</html>
